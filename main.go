@@ -10,7 +10,7 @@ import (
 // use environment variables to access data
 
 func main() {
-	// init environment variables
+	setupEnvironment()
 	botName := os.Getenv("BOT_USERNAME")
 	botOAuthToken := os.Getenv("BOT_TOKEN")
 	channelName := os.Getenv("CHANNEL_NAME")
