@@ -2,18 +2,25 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
-	"github.com/gempir/go-twitch-irc"
+	"github.com/gempir/go-twitch-irc/v2"
+	"github.com/joho/godotenv"
 )
 
-// use environment variables to access data
+func getEnvVariable(key string) string {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("error loading .env file")
+	}
+	return os.Getenv(key)
+}
 
 func main() {
-	setupEnvironment()
-	botName := os.Getenv("BOT_USERNAME")
-	botOAuthToken := os.Getenv("BOT_TOKEN")
-	channelName := os.Getenv("CHANNEL_NAME")
+	botName := getEnvVariable("BOT_USERNAME")
+	botOAuthToken := getEnvVariable("BOT_TOKEN")
+	channelName := getEnvVariable("CHANNEL_NAME")
 
 	client := twitch.NewClient(botName, fmt.Sprintf("oauth: %s", botOAuthToken))
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
